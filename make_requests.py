@@ -27,14 +27,14 @@ def saveJson(seq_num, jsondata):
 
 
 def call_NOAA():
-    u = "https://www.ncdc.noaa.gov/cdo-web/api/v2/locations/?offset={offset}&limit={limit}"
     limit = 1000
-    offset = 1
     ctype = "application/json"
     key = "NOAA_TOKEN"
-    token = os.getenv(key)
-    headers = {'Content-Type': ctype,
-    'token': token,
+    token = os.getenv(key) # SO I don't have to put my token in a Public Repo!!!
+    # that would be bad, eh, if some hacker in a basement stole your token?
+    headers = {
+        'Content-Type': ctype,
+        'token': token,
     }
 
     for i in range(1, 39000, 1000):
