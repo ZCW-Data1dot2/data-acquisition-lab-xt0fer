@@ -21,13 +21,13 @@ def saveJson(seq_num, jsondata):
     if jsondata == None:
         print("No Json Data")
         return
-    filename = "./dataNOAA_locations"+seq_num+".json"
+    filename = "./dataNOAA_locations_"+str(seq_num)+".json"
     with open(filename, 'w') as json_file:
         json.dump(jsondata, json_file)
 
 
 def call_NOAA():
-    u = "https://www.ncdc.noaa.gov/cdo-web/api/v2/locations/?offset=1&limit=25"
+    u = "https://www.ncdc.noaa.gov/cdo-web/api/v2/locations/?offset={offset}&limit={limit}"
     limit = 1000
     offset = 1
     ctype = "application/json"
@@ -36,12 +36,17 @@ def call_NOAA():
     headers = {'Content-Type': ctype,
     'token': token,
     }
-    #print(token)
-    r = rq.get(u, headers=headers)
-    #if r.status_code != "200":
-    print(r.status_code, r.reason)
-    saveJson(offset, r.json())
-    print(r.json())
+
+    for i in range(1, 39000, 1000):
+        offset = i
+        set_num = offset // 1000
+        url = f"https://www.ncdc.noaa.gov/cdo-web/api/v2/locations/?offset={offset}&limit={limit}"
+        print("url", url)
+        r = rq.get(url, headers=headers)
+        if r.status_code != 200:
+            print("error in fetching", r.status_code, r.reason)
+            return
+        saveJson(set_num, r.json())
 
 
 call_NOAA()
