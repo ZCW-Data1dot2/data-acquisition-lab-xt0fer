@@ -28,12 +28,12 @@ def saveJson(seq_num, jsondata):
 
 def call_NOAA():
     limit = 1000
-    ctype = "application/json"
+    contenttype = "application/json"
     key = "NOAA_TOKEN"
     token = os.getenv(key) # SO I don't have to put my token in a Public Repo!!!
     # that would be bad, eh, if some hacker in a basement stole your token?
     headers = {
-        'Content-Type': ctype,
+        'Content-Type': contenttype,
         'token': token,
     }
 
